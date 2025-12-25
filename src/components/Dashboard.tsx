@@ -151,7 +151,7 @@ export default function Dashboard() {
             </div>
 
             <div className="pt-4 border-t border-slate-800">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mb-3">
                 <span className="text-slate-400 text-sm">Future / Spot Ratio</span>
                 <span className={cn(
                   "font-mono font-bold",
@@ -160,17 +160,25 @@ export default function Dashboard() {
                   {data.prices.ratio.toFixed(6)}
                 </span>
               </div>
-              <div className="mt-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
-                <p className="text-[10px] text-slate-500 uppercase font-bold mb-1">Markt-Analyse</p>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  {data.prices.ratio > 1.0005 
-                    ? "Starker Optimismus (Contango). Trader zahlen Aufpreis für Longs. Trend ist stabil, aber auf Überhitzung achten." 
-                    : data.prices.ratio > 1
-                    ? "Leichtes Contango. Gesunder Aufwärtsmarkt. Institutionelles Interesse ist vorhanden."
-                    : data.prices.ratio > 0.9995
-                    ? "Leichte Backwardation. Markt ist unsicher oder sichert sich gegen fallende Kurse ab."
-                    : "Starke Backwardation. Panik oder massive Absicherung. Oft ein Zeichen für eine baldige Bodenbildung."}
-                </p>
+              <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700 space-y-3">
+                <div>
+                  <p className="text-[10px] text-slate-500 uppercase font-bold mb-2">Markt-Analyse</p>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    {data.prices.ratio > 1.0005 
+                      ? "Starker Optimismus (Contango). Trader zahlen Aufpreis für Longs. Trend ist stabil, aber auf Überhitzung achten." 
+                      : data.prices.ratio > 1
+                      ? "Leichtes Contango. Gesunder Aufwärtsmarkt. Institutionelles Interesse ist vorhanden."
+                      : data.prices.ratio > 0.9995
+                      ? "Leichte Backwardation. Markt ist unsicher oder sichert sich gegen fallende Kurse ab."
+                      : "Starke Backwardation. Panik oder massive Absicherung. Oft ein Zeichen für eine baldige Bodenbildung."}
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-slate-700">
+                  <p className="text-[10px] text-yellow-500 uppercase font-bold mb-2">🎯 Markt erwartet</p>
+                  <p className="text-xs text-yellow-300 font-semibold">
+                    {data.signals.scalping.interpretation}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -246,11 +254,11 @@ export default function Dashboard() {
                   {data.signals.scalping.type}
                 </span>
               </div>
-              <div className="flex items-end gap-2">
+              <div className="flex items-end gap-2 mb-3">
                 <span className="text-2xl font-bold text-white">{data.signals.scalping.probability}%</span>
                 <span className="text-xs text-slate-500 mb-1">Probability</span>
               </div>
-              <div className="w-full bg-slate-700 h-1.5 rounded-full mt-3 overflow-hidden">
+              <div className="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden mb-3">
                 <div 
                   className={cn(
                     "h-full transition-all duration-1000",
@@ -259,6 +267,9 @@ export default function Dashboard() {
                   style={{ width: `${data.signals.scalping.probability}%` }}
                 />
               </div>
+              <p className="text-[10px] text-slate-400 italic border-t border-slate-700 pt-2">
+                {data.signals.scalping.interpretation}
+              </p>
             </div>
 
             <div className="p-4 bg-slate-800/50 rounded-xl border border-slate-700">

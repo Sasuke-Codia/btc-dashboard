@@ -130,28 +130,35 @@ export function calculateSignals(priceData: any, onChainData: any) {
   // Scalping Logic: Focus on Future/Spot Ratio and immediate price action
   let scalpingProb = 0.5;
   let scalpingType: 'BUY' | 'SHORT' = 'BUY';
+  let scalpingInterpretation = 'Neutral';
 
   if (ratio > 1.0002) {
     scalpingProb = 0.65 + (Math.min(ratio - 1.0002, 0.001) * 100);
     scalpingType = 'BUY';
+    scalpingInterpretation = 'Der Markt erwartet weitere Höhen (Longs dominieren). Profis stacken Long-Positionen.';
   } else if (ratio < 0.9998) {
     scalpingProb = 0.65 + (Math.min(0.9998 - ratio, 0.001) * 100);
     scalpingType = 'SHORT';
+    scalpingInterpretation = 'Der Markt erwartet einen Rückgang (Shorts dominieren). Massive Liquidations bevorstehend.';
+  } else {
+    scalpingInterpretation = 'Markt ist ausgewogen. Abwarten auf nächsten Impuls.';
   }
 
   // Swing Logic: Focus on On-Chain Health (Difficulty & Reward)
-  // Higher difficulty and stable rewards are long-term bullish
-  const swingProb = 0.68; // Base bullish bias for BTC long-term
+  const swingProb = 0.68;
   const swingType: 'BUY' | 'SHORT' = 'BUY';
+  const swingInterpretation = 'Long-term Trend ist stabil. On-Chain Health ist gesund für Bull-Markt.';
 
   return {
     scalping: {
       type: scalpingType,
-      probability: Math.min(Math.round(scalpingProb * 100), 98)
+      probability: Math.min(Math.round(scalpingProb * 100), 98),
+      interpretation: scalpingInterpretation
     },
     swing: {
       type: swingType,
-      probability: Math.round(swingProb * 100)
+      probability: Math.round(swingProb * 100),
+      interpretation: swingInterpretation
     }
   };
 }
